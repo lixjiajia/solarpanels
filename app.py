@@ -8,6 +8,8 @@ app.layout = html.Div(
     [
         dcc.Location(id="url", refresh=False),
         html.Div(id="page-content", children=home_layout),
+        html.Button('Click Me', id='my-button'),
+        html.Script(src='/assets/custom.js')
     ]
 )
 
