@@ -1,5 +1,6 @@
 from dash import Dash, dcc, html, Input, Output
 from layouts import home_layout, dashboard_layout
+import dash_leaflet as dl
 
 app = Dash(__name__, suppress_callback_exceptions=True)
 server = app.server
@@ -32,10 +33,7 @@ app.layout = html.Div(
                     className="content-container",
                     children=[
 
-                        html.Div(
-                            id="map",
-                            style={'height': '400px', 'width': '100%'}
-                        ),
+                        dl.Map(dl.TileLayer(), style={'height': '400px', 'width': '100%'}, center=[56, 10], zoom=6),
                         # Form Section
                         html.Div(
                             className="form-section",
