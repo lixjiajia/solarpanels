@@ -2,7 +2,7 @@ from dash import Dash, dcc, html, Input, Output
 from layouts import home_layout, dashboard_layout
 import dash_leaflet as dl
 
-app = Dash(__name__, suppress_callback_exceptions=True)
+app = Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=["https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"])
 server = app.server
 
 app.layout = html.Div(
@@ -12,8 +12,6 @@ app.layout = html.Div(
             className="header",
             children=[
                 html.Link(rel="stylesheet", href="assets/styles.css"),
-
-
                 html.Div(
                     className="header-content",
                     children=[
@@ -28,7 +26,7 @@ app.layout = html.Div(
         html.Main(
             className="main-content",
             children=[
-                html.H1("Powered to help you opt for clean, sustainable choices."),
+                html.H1("POWERED TO HELP YOU OPT FOR THE CLEAN, SMART CHOICES."),
                 html.Div(
                     className="content-container",
                     children=[
@@ -72,14 +70,14 @@ app.layout = html.Div(
                                         ),
                                         # Home type or monthly consumption input
                                         html.Div(
-                                            className="input-item",
+                                            className="input-item", id="radio-input",
                                             children=[
                                                 html.Label("Choose your home type or enter your average monthly consumption (kWh)"),
                                                 html.Div(
-                                                    className="radio-group",
+                                                    className="radio-input-items",
                                                     children=[
                                                         html.Div(
-                                                            className="radio-item",
+                                                            className="radio-group",
                                                             children=[
                                                                 dcc.RadioItems(
                                                                     id="home-size",
@@ -92,6 +90,7 @@ app.layout = html.Div(
                                                                 )
                                                             ]
                                                         ),
+                                                        html.Span("OR", className="or-text"),
                                                         dcc.Input(id="monthly-consumption", name="monthly-consumption", type="number")
                                                     ]
                                                 )

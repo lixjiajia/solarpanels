@@ -42,16 +42,20 @@ body {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 45px;
+    font-family: "Josefin Sans";
+    font-weight: 500;
+  font-style: italic;
   margin-bottom: 20px;
   color: #302F24;
-  text-align: center;
+  text-align: left;
+width: 72%;
 }
 
 .main-content {
   flex: 1; /* Take up remaining space */
   width: 100%;
-  margin-top: 80px; /* Offset for the fixed header */
+  margin-top: 100px; /* Offset for the fixed header */
   padding: 20px;
   box-sizing: border-box;
 }
@@ -60,6 +64,7 @@ h1 {
   width: 100%;
   height: 100%;
   display: flex;
+
   justify-content: center;
 }
 
@@ -112,19 +117,38 @@ input[type="number"] {
   font-weight: 600;
   outline: none; /* Remove default outline */
 }
+#radio-input {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column; /* Stack label and container vertically */
+    gap: 20px; /* Space between label and radio/input container */
+}
+
+.radio-input-items {
+    display: flex;
+    flex-direction: row; /* Align radio fields and input horizontally */
+    align-items: center; /* Vertically center the items */
+    gap: 100px; /* Space between radio fields and input */
+    height:100%;
+}
 
 .radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column; /* Stack radio fields vertically */
+    gap: 30px; /* Space between radio fields */
+}
+.or-text {
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make it bold */
+    color: #333; /* Adjust color */
 }
 
-.radio-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+#monthly-consumption {
+    width: 150px; /* Adjust the width of the input field */
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
 }
-
 /* Button Styling */
 button {
   padding: 10px 20px;
@@ -139,4 +163,15 @@ button {
 
 button:hover {
   background-color: #e1b222; /* Hover effect */
+}
+/* Hide up/down arrows for number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
 }
