@@ -1,5 +1,6 @@
 from dash import html, dcc
-from charts import create_line_chart, create_bar_chart, create_gauge_chart
+import dash_bootstrap_components as dbc
+from charts import create_line_chart1, create_line_chart2, create_gauge_chart
 
 # Home Layout
 home_layout = html.Div(
@@ -81,10 +82,79 @@ home_layout = html.Div(
 )
 
 dashboard_layout = html.Div(
-    children=[
-        html.H1("Dashboard", style={"textAlign": "center", "marginBottom": "20px"}),
-        dcc.Graph(id="line_chart", figure=create_line_chart()),
-        dcc.Graph(id="bar_chart", figure=create_bar_chart()),
-        dcc.Graph(id="gauge_chart", figure=create_gauge_chart()),
+    [
+        html.H1(
+            "SOLAROPT",
+            style={
+                "marginBottom": "20px",
+                "backgroundColor": "rgba(255,213,120,1.2)",
+                "padding": "20px",
+                "borderRadius": "8px",
+                "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
+            },
+        ),
+        html.Div(
+            [
+                html.H2(
+                    "Emissions Savings",
+                    style={"textAlign": "center", "marginBottom": "20px"},
+                ),
+                dbc.Col(
+                    [
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    dcc.Graph(
+                                        id="line_chart",
+                                        figure=create_line_chart1(),
+                                        style={
+                                            "width": "80%",
+                                            "textAlign": "center",
+                                            "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                            "padding": "10px",
+                                        },
+                                    ),
+                                    width=7,
+                                ),
+                                dbc.Col(
+                                    html.Div(
+                                        children=[
+                                            html.H3(
+                                                "1 year CO2 savings",
+                                                style={
+                                                    "fontSize": "24px",
+                                                    "textAlign": "center",
+                                                },
+                                            ),
+                                            html.H2(
+                                                "X lbs",
+                                                style={
+                                                    "fontSize": "32px",
+                                                    "fontWeight": "bold",
+                                                    "textAlign": "center",
+                                                },
+                                            ),
+                                        ],
+                                        style={
+                                            "border": "2px solid #4CAF50",
+                                            "borderRadius": "10px",
+                                            "padding": "20px",
+                                            "textAlign": "center",
+                                            "boxShadow": "4px 8px 12px rgba(0, 0, 0, 0.1)",
+                                            "backgroundColor": "rgba(255,213,120,0.8)",
+                                            "margin": "0 auto",
+                                        },
+                                    ),
+                                    width=5,
+                                ),
+                            ],
+                            justify="center",
+                            align="center",
+                            style={"marginBottom": "20px"},
+                        ),
+                    ]
+                ),
+            ]
+        ),
     ]
 )
