@@ -30,8 +30,8 @@ app.layout = html.Div(
                 html.Div(
                     className="content-container",
                     children=[
-
-                        dl.Map(dl.TileLayer(), style={'height': '400px', 'width': '100%'}, center=[56, 10], zoom=6),
+                        # Set center to Calgary
+                        dl.Map(dl.TileLayer(), style={'height': '400px', 'width': '100%'}, center=[51.0447, -114.0719], zoom=6),
                         # Form Section
                         html.Div(
                             className="form-section",
