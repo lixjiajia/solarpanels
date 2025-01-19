@@ -169,77 +169,60 @@ home_layout = html.Div(
 dashboard_layout = html.Div(
     [
         html.H1(
-            "SOLAROPT",
+            "SolarOpt",
             style={
                 "marginBottom": "20px",
                 "backgroundColor": "rgba(255,213,120,1.2)",
                 "padding": "20px",
+                "backgroundColor": "#f8f9fa",
                 "borderRadius": "8px",
                 "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
             },
         ),
-        html.Div(
+        dbc.Container(
             [
-                html.H2(
-                    "Emissions Savings",
-                    style={"textAlign": "center", "marginBottom": "20px"},
-                ),
-                dbc.Col(
+                # Row 1: Charts
+                dbc.Row(
                     [
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    dcc.Graph(
-                                        id="line_chart",
-                                        figure=create_line_chart1(),
-                                        style={
-                                            "width": "80%",
-                                            "textAlign": "center",
-                                            "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                            "padding": "10px",
-                                        },
-                                    ),
-                                    width=7,
-                                ),
-                                dbc.Col(
-                                    html.Div(
-                                        children=[
-                                            html.H3(
-                                                "1 year CO2 savings",
-                                                style={
-                                                    "fontSize": "24px",
-                                                    "textAlign": "center",
-                                                },
-                                            ),
-                                            html.H2(
-                                                "X lbs",
-                                                style={
-                                                    "fontSize": "32px",
-                                                    "fontWeight": "bold",
-                                                    "textAlign": "center",
-                                                },
-                                            ),
-                                        ],
-                                        style={
-                                            "border": "2px solid #4CAF50",
-                                            "borderRadius": "10px",
-                                            "padding": "20px",
-                                            "textAlign": "center",
-                                            "boxShadow": "4px 8px 12px rgba(0, 0, 0, 0.1)",
-                                            "backgroundColor": "rgba(255,213,120,0.8)",
-                                            "margin": "0 auto",
-                                        },
-                                    ),
-                                    width=5,
-                                ),
-                            ],
-                            justify="center",
-                            align="center",
-                            style={"marginBottom": "20px"},
+                        dbc.Col(
+                            dcc.Graph(
+                                id="line_chart1",
+                                figure=create_line_chart1(),
+                                style={"boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)"},
+                            ),
+                            width=6,
                         ),
-                    ]
+                        dbc.Col(
+                            dcc.Graph(
+                                id="line_chart2",
+                                figure=create_line_chart2(),
+                                style={"boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)"},
+                            ),
+                            width=6,
+                        ),
+                    ],
+                    className="mb-4",
                 ),
-            ]
+                # Row 2: Gauge Chart
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dcc.Graph(
+                                id="gauge_chart",
+                                figure=create_gauge_chart(),
+                                style={
+                                    "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                    "padding": "10px",
+                                },
+                            ),
+                            width=6,
+                            className="offset-md-3",
+                        )
+                    ],
+                    className="mb-4",
+                ),
+            ],
+            fluid=True,
         ),
     ]
 )
