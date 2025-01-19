@@ -38,7 +38,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column; /* Stack children vertically */
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
 }
 
 h1 {
@@ -79,19 +79,19 @@ form {
   gap: 15px;
 }
 #map {
-  flex: 1; /* Reduce this to give more space to the form */
+  flex: 1;
   height: 400px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-/* Flex for Address and Roof Size */
+
 .input-group {
   display: flex;
   gap: 15px;
 }
 
-/* Styling for individual form items */
+
 .input-item {
   display: flex;
   flex-direction: column;
@@ -110,12 +110,12 @@ input[type="text"],
 input[type="number"] {
   padding: 18px;
   border: 1px solid #ccc;
-  border-radius: 20px; /* Curved sides */
-  background-color: #E9B755; /* Orange background */
-  color: white; /* White text */
+  border-radius: 20px;
+  background-color: #E9B755;
+  color: white;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  outline: none; /* Remove default outline */
+  outline: none;
 }
 #radio-input {
     min-height: 200px;
@@ -134,35 +134,36 @@ input[type="number"] {
 
 .radio-group {
     display: flex;
-    flex-direction: column; /* Stack radio fields vertically */
-    gap: 30px; /* Space between radio fields */
+    flex-direction: column;
+    gap: 30px;
 }
 .or-text {
-    font-size: 18px; /* Adjust font size */
-    font-weight: bold; /* Make it bold */
-    color: #333; /* Adjust color */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
 }
 
 #monthly-consumption {
-    width: 150px; /* Adjust the width of the input field */
+    width: 150px;
     border: 1px solid #ccc;
     border-radius: 20px;
     font-size: 16px;
 }
 /* Button Styling */
 button {
-  padding: 10px 20px;
-  background-color: #f1c232; /* Button color */
+  padding: 15px 30px;
+    font-size: 20px;
   border: none;
+background-color: #979797;
   border-radius: 5px;
   color: white;
   font-weight: bold;
   cursor: pointer;
-  align-self: flex-end; /* Align button to the bottom right */
+  align-self: flex-end;
 }
 
 button:hover {
-  background-color: #e1b222; /* Hover effect */
+  background-color: #645E5E;
 }
 /* Hide up/down arrows for number inputs */
 input[type="number"]::-webkit-outer-spin-button,
