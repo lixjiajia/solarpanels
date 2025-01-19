@@ -1,199 +1,34 @@
 from dash import Dash, dcc, html, Input, Output
+import dash_bootstrap_components as dbc
 from layouts import home_layout, dashboard_layout
-import dash_leaflet as dl
 import os
 
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 
 app = Dash(
     __name__,
-    suppress_callback_exceptions=True,
     external_stylesheets=[
-        "https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        dbc.themes.BOOTSTRAP,
+        "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100..700&display=swap",
     ],
 )
+
+
 server = app.server
 
 app.layout = html.Div(
-    children=[
+    [
         dcc.Location(id="url", refresh=False),
-        # Header section
-        html.Header(
-            className="header",
-            children=[
-                html.Link(rel="stylesheet", href="solarpanels/assets/styles.css"),
-                html.Div(
-                    className="header-content",
-                    children=[
-                        html.Img(
-                            src="assets/icons8-solar-64.png",
-                            alt="Logo",
-                            className="logo",
-                        ),
-                        html.H1("SolarOpt", className="title"),
-                    ],
-                ),
-            ],
-        ),
-        # Main content section
-        html.Main(
-            className="main-content",
-            children=[
-                html.H1("POWERED TO HELP YOU OPT FOR THE CLEAN, SMART CHOICES."),
-                html.Div(
-                    className="content-container",
-                    children=[
-                        # Set center to Calgary
-                        dl.Map(
-                            dl.TileLayer(),
-                            style={"height": "400px", "width": "100%"},
-                            center=[51.0447, -114.0719],
-                            zoom=6,
-                        ),
-                        # Form Section
-                        html.Div(
-                            className="form-section",
-                            children=[
-                                html.Form(
-                                    action="/dashboard",
-                                    method="get",
-                                    children=[
-                                        # Address and Roof Size input group
-                                        html.Div(
-                                            className="input-group",
-                                            children=[
-                                                html.Div(
-                                                    className="input-item",
-                                                    children=[
-                                                        html.Label(
-                                                            "Enter your Address"
-                                                        ),
-                                                        dcc.Input(
-                                                            id="address",
-                                                            name="address",
-                                                            type="text",
-                                                        ),
-                                                    ],
-                                                ),
-                                                html.Div(
-                                                    className="input-item",
-                                                    children=[
-                                                        html.Label(
-                                                            "Enter your Roof Size (sqft)"
-                                                        ),
-                                                        dcc.Input(
-                                                            id="roof-size",
-                                                            name="roof-size",
-                                                            type="number",
-                                                        ),
-                                                    ],
-                                                ),
-                                            ],
-                                        ),
-                                        # Energy Bills input
-                                        html.Div(
-                                            className="input-item",
-                                            children=[
-                                                html.Label(
-                                                    "$ Cost of energy bills (per month)"
-                                                ),
-                                                dcc.Input(
-                                                    id="energy-bills",
-                                                    name="energy-bills",
-                                                    type="number",
-                                                ),
-                                            ],
-                                        ),
-                                        # Home type or monthly consumption input
-                                        html.Div(
-                                            className="input-item",
-                                            id="radio-input",
-                                            children=[
-                                                html.Label(
-                                                    "Choose your home type or enter your average monthly consumption (kWh)"
-                                                ),
-                                                html.Div(
-                                                    className="radio-input-items",
-                                                    children=[
-                                                        html.Div(
-                                                            className="radio-group",
-                                                            children=[
-                                                                dcc.RadioItems(
-                                                                    id="home-size",
-                                                                    options=[
-                                                                        {
-                                                                            "label": "Small - 2000 sq.ft. and below",
-                                                                            "value": "small",
-                                                                        },
-                                                                        {
-                                                                            "label": "Medium - 2000 to 2600 sq.ft.",
-                                                                            "value": "medium",
-                                                                        },
-                                                                        {
-                                                                            "label": "Large - 2600 sq.ft. and above",
-                                                                            "value": "large",
-                                                                        },
-                                                                    ],
-                                                                    value="small",
-                                                                )
-                                                            ],
-                                                        ),
-                                                        html.Span(
-                                                            "OR", className="or-text"
-                                                        ),
-                                                        dcc.Input(
-                                                            id="monthly-consumption",
-                                                            name="monthly-consumption",
-                                                            type="number",
-                                                        ),
-                                                    ],
-                                                ),
-                                            ],
-                                        ),
-                                        # Submit Button
-                                        html.Button(
-                                            "Calculate",
-                                            id="submit-btn",
-                                            className="calculate-btn",
-                                        ),
-                                    ],
-                                ),
-                                # Display the result below the form
-                                html.Div(id="result-output"),
-                            ],
-                        ),
-                    ],
-                ),
-            ],
-        ),
-        html.Script(
-            src="https://maps.googleapis.com/maps/api/js?key={GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap",
-            defer=True,
-        ),
-        # Load custom JavaScript
-        html.Script(src="/assets/maps.js"),
-    ],
+        html.Div(id="page-content"),
+    ]
 )
-
 
 @app.callback(
-    Output("result-output", "children"),
-    [Input("url", "pathname"), Input("submit-btn", "n_clicks")],
-    [
-        Input("address", "value"),
-        Input("roof-size", "value"),
-        Input("energy-bills", "value"),
-        Input("home-size", "value"),
-        Input("monthly-consumption", "value"),
-    ],
+    Output("page-content", "children"),
+    [Input("url", "pathname")],
 )
-def update_output(
-    pathname, n_clicks, address, roof_size, energy_bills, home_size, monthly_consumption
-):
-    # if n_clicks is None:
-    #     return ''
-
-    if pathname == "/dashboard" or (n_clicks and n_clicks > 0):
+def display_page(pathname):
+    if pathname == "/dashboard":
         return dashboard_layout
     return home_layout
 

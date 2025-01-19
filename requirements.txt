@@ -1,0 +1,5 @@
+numpy
+flask
+matplotlib
+Dash
+dash_leaflet

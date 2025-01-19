@@ -1,160 +1,214 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 from charts import create_line_chart1, create_line_chart2, create_gauge_chart
+import dash_leaflet as dl
+
 
 # Home Layout
+# Home Layout
 home_layout = html.Div(
-    style={
-        "fontFamily": "Arial, sans-serif",
-        "backgroundColor": "#f4f4f4",
-        "color": "#333",
-        "margin": "0",
-        "padding": "0",
-        "display": "flex",
-        "justifyContent": "center",
-        "alignItems": "center",
-        "height": "100vh",
-    },
     children=[
-        html.Div(
-            style={
-                "backgroundColor": "#fff",
-                "padding": "20px",
-                "borderRadius": "8px",
-                "boxShadow": "0 0 10px rgba(0, 0, 0, 0.1)",
-                "maxWidth": "500px",
-                "width": "100%",
-            },
+        # Header Section
+        html.Header(
+            className="header",
             children=[
-                html.H1(
-                    "Welcome to Solar Sisters",
-                    style={
-                        "fontSize": "24px",
-                        "marginBottom": "20px",
-                        "color": "#007bff",
-                        "textAlign": "center",
-                    },
-                ),
                 html.Div(
-                    style={"display": "flex", "flexDirection": "column", "gap": "15px"},
+                    className="header-content",
                     children=[
-                        html.Label("Roof size:"),
-                        dcc.Input(
-                            type="text",
-                            id="roofSize",
-                            required=True,
-                            style={"width": "100%", "padding": "10px"},
+                        html.Img(
+                            src="assets/icons8-solar-64.png",
+                            alt="Logo",
+                            className="logo",
                         ),
-                        html.Label("Consumption of kW per month:"),
-                        dcc.Input(
-                            type="text",
-                            id="ConsumptionMonth",
-                            required=True,
-                            style={"width": "100%", "padding": "10px"},
+                        html.H1("SolarOpt", className="title"),
+                    ],
+                ),
+            ],
+        ),
+        # Main Content Section
+        html.Main(
+            className="main-content",
+            children=[
+                html.H1("POWERED TO HELP YOU OPT FOR THE CLEAN, SMART CHOICES."),
+                html.Div(
+                    className="content-container",
+                    children=[
+                        # Map Section
+                        dl.Map(
+                            dl.TileLayer(),
+                            style={"height": "400px", "width": "100%"},
+                            center=[51.0447, -114.0719],
+                            zoom=6,
                         ),
-                        html.Label("Cost of energy bills per month:"),
-                        dcc.Input(
-                            type="text",
-                            id="EnergyBillMonth",
-                            required=True,
-                            style={"width": "100%", "padding": "10px"},
-                        ),
-                        html.Button(
-                            "Submit",
-                            id="submitButton",
-                            n_clicks=0,
-                            style={
-                                "width": "100%",
-                                "padding": "10px",
-                                "marginTop": "15px",
-                                "borderRadius": "4px",
-                                "backgroundColor": "#007bff",
-                                "color": "white",
-                                "fontSize": "16px",
-                                "cursor": "pointer",
-                            },
+                        # Form Section
+                        html.Div(
+                            className="form-section",
+                            children=[
+                                html.Form(
+                                    action="/dashboard",
+                                    method="get",
+                                    children=[
+                                        # Input Group: Address and Roof Size
+                                        html.Div(
+                                            className="input-group",
+                                            children=[
+                                                html.Div(
+                                                    className="input-item",
+                                                    children=[
+                                                        html.Label("Enter your Address"),
+                                                        dcc.Input(
+                                                            id="address",
+                                                            name="address",
+                                                            type="text",
+                                                            placeholder="e.g., 123 Main St",
+                                                        ),
+                                                    ],
+                                                ),
+                                                html.Div(
+                                                    className="input-item",
+                                                    children=[
+                                                        html.Label(
+                                                            "Enter your Roof Size (sqft)"
+                                                        ),
+                                                        dcc.Input(
+                                                            id="roof-size",
+                                                            name="roof-size",
+                                                            type="number",
+                                                            placeholder="e.g., 2000",
+                                                        ),
+                                                    ],
+                                                ),
+                                            ],
+                                        ),
+                                        # Input Group: Energy Bills
+                                        html.Div(
+                                            className="input-item",
+                                            children=[
+                                                html.Label(
+                                                    "$ Cost of energy bills (per month)"
+                                                ),
+                                                dcc.Input(
+                                                    id="energy-bills",
+                                                    name="energy-bills",
+                                                    type="number",
+                                                    placeholder="e.g., 150",
+                                                ),
+                                            ],
+                                        ),
+                                        # Input Group: Home Type or Monthly Consumption
+                                        html.Div(
+                                            className="input-item",
+                                            id="radio-input",
+                                            children=[
+                                                html.Label(
+                                                    "Choose your home type or enter your average monthly consumption (kWh)"
+                                                ),
+                                                html.Div(
+                                                    className="radio-input-items",
+                                                    children=[
+                                                        html.Div(
+                                                            className="radio-group",
+                                                            children=[
+                                                                dcc.RadioItems(
+                                                                    id="home-size",
+                                                                    options=[
+                                                                        {
+                                                                            "label": "Small - 2000 sq.ft. and below",
+                                                                            "value": "small",
+                                                                        },
+                                                                        {
+                                                                            "label": "Medium - 2000 to 2600 sq.ft.",
+                                                                            "value": "medium",
+                                                                        },
+                                                                        {
+                                                                            "label": "Large - 2600 sq.ft. and above",
+                                                                            "value": "large",
+                                                                        },
+                                                                    ],
+                                                                    value="small",
+                                                                )
+                                                            ],
+                                                        ),
+                                                        html.Span(
+                                                            "OR", className="or-text"
+                                                        ),
+                                                        dcc.Input(
+                                                            id="monthly-consumption",
+                                                            name="monthly-consumption",
+                                                            type="number",
+                                                            placeholder="e.g., 800",
+                                                        ),
+                                                    ],
+                                                ),
+                                            ],
+                                        ),
+                                        # Submit Button
+                                        html.Button(
+                                            "Calculate",
+                                            id="submit-btn",
+                                            className="calculate-btn",
+                                        ),
+                                    ],
+                                ),
+                                # Result Output Section
+                                html.Div(id="result-output"),
+                            ],
                         ),
                     ],
                 ),
             ],
-        )
+        ),
     ],
 )
 
 dashboard_layout = html.Div(
     [
-        html.H1(
-            "SOLAROPT",
-            style={
-                "marginBottom": "20px",
-                "backgroundColor": "rgba(255,213,120,1.2)",
-                "padding": "20px",
-                "borderRadius": "8px",
-                "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
-            },
-        ),
-        html.Div(
-            [
-                html.H2(
-                    "Emissions Savings",
-                    style={"textAlign": "center", "marginBottom": "20px"},
+        # Header Section
+        html.Header(
+            className="header",
+            children=[
+                html.Div(
+                    className="header-content",
+                    children=[
+                        html.Img(
+                            src="assets/icons8-solar-64.png",
+                            alt="Logo",
+                            className="logo",
+                        ),
+                        html.H1("SolarOpt Dashboard", className="title"),
+                    ],
                 ),
-                dbc.Col(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    dcc.Graph(
-                                        id="line_chart",
-                                        figure=create_line_chart1(),
-                                        style={
-                                            "width": "80%",
-                                            "textAlign": "center",
-                                            "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                            "padding": "10px",
-                                        },
-                                    ),
-                                    width=7,
+            ],
+        ),
+        # Main Content Section
+        html.Main(
+            className="main-content",
+            children=[
+                html.Div(
+                    className="content-container",
+                    children=[
+                        # Row 1: Line Charts
+                        html.Div(
+                            className="input-group",
+                            children=[
+                                dcc.Graph(
+                                    id="line_chart1", figure=create_line_chart1()
                                 ),
-                                dbc.Col(
-                                    html.Div(
-                                        children=[
-                                            html.H3(
-                                                "1 year CO2 savings",
-                                                style={
-                                                    "fontSize": "24px",
-                                                    "textAlign": "center",
-                                                },
-                                            ),
-                                            html.H2(
-                                                "X lbs",
-                                                style={
-                                                    "fontSize": "32px",
-                                                    "fontWeight": "bold",
-                                                    "textAlign": "center",
-                                                },
-                                            ),
-                                        ],
-                                        style={
-                                            "border": "2px solid #4CAF50",
-                                            "borderRadius": "10px",
-                                            "padding": "20px",
-                                            "textAlign": "center",
-                                            "boxShadow": "4px 8px 12px rgba(0, 0, 0, 0.1)",
-                                            "backgroundColor": "rgba(255,213,120,0.8)",
-                                            "margin": "0 auto",
-                                        },
-                                    ),
-                                    width=5,
+                                dcc.Graph(
+                                    id="line_chart2", figure=create_line_chart2()
                                 ),
                             ],
-                            justify="center",
-                            align="center",
-                            style={"marginBottom": "20px"},
                         ),
-                    ]
+                        # Row 2: Gauge Chart
+                        html.Div(
+                            className="input-item",
+                            children=[
+                                dcc.Graph(id="gauge_chart", figure=create_gauge_chart()),
+                            ],
+                        ),
+                    ],
                 ),
-            ]
+            ],
         ),
     ]
 )
