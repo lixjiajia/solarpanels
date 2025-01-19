@@ -1,6 +1,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 from charts import create_line_chart1, create_line_chart2, create_gauge_chart
+import dash_leaflet as dl
+
 
 # Home Layout
 home_layout = html.Div(
