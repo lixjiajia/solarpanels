@@ -5,14 +5,13 @@ import dash_leaflet as dl
 
 
 # Home Layout
+# Home Layout
 home_layout = html.Div(
     children=[
-        dcc.Location(id="url", refresh=False),
-        # Header section
+        # Header Section
         html.Header(
             className="header",
             children=[
-                html.Link(rel="stylesheet", href="solarpanels/assets/styles.css"),
                 html.Div(
                     className="header-content",
                     children=[
@@ -26,7 +25,7 @@ home_layout = html.Div(
                 ),
             ],
         ),
-        # Main content section
+        # Main Content Section
         html.Main(
             className="main-content",
             children=[
@@ -34,7 +33,7 @@ home_layout = html.Div(
                 html.Div(
                     className="content-container",
                     children=[
-                        # Set center to Calgary
+                        # Map Section
                         dl.Map(
                             dl.TileLayer(),
                             style={"height": "400px", "width": "100%"},
@@ -49,20 +48,19 @@ home_layout = html.Div(
                                     action="/dashboard",
                                     method="get",
                                     children=[
-                                        # Address and Roof Size input group
+                                        # Input Group: Address and Roof Size
                                         html.Div(
                                             className="input-group",
                                             children=[
                                                 html.Div(
                                                     className="input-item",
                                                     children=[
-                                                        html.Label(
-                                                            "Enter your Address"
-                                                        ),
+                                                        html.Label("Enter your Address"),
                                                         dcc.Input(
                                                             id="address",
                                                             name="address",
                                                             type="text",
+                                                            placeholder="e.g., 123 Main St",
                                                         ),
                                                     ],
                                                 ),
@@ -76,12 +74,13 @@ home_layout = html.Div(
                                                             id="roof-size",
                                                             name="roof-size",
                                                             type="number",
+                                                            placeholder="e.g., 2000",
                                                         ),
                                                     ],
                                                 ),
                                             ],
                                         ),
-                                        # Energy Bills input
+                                        # Input Group: Energy Bills
                                         html.Div(
                                             className="input-item",
                                             children=[
@@ -92,10 +91,11 @@ home_layout = html.Div(
                                                     id="energy-bills",
                                                     name="energy-bills",
                                                     type="number",
+                                                    placeholder="e.g., 150",
                                                 ),
                                             ],
                                         ),
-                                        # Home type or monthly consumption input
+                                        # Input Group: Home Type or Monthly Consumption
                                         html.Div(
                                             className="input-item",
                                             id="radio-input",
@@ -136,6 +136,7 @@ home_layout = html.Div(
                                                             id="monthly-consumption",
                                                             name="monthly-consumption",
                                                             type="number",
+                                                            placeholder="e.g., 800",
                                                         ),
                                                     ],
                                                 ),
@@ -149,7 +150,7 @@ home_layout = html.Div(
                                         ),
                                     ],
                                 ),
-                                # Display the result below the form
+                                # Result Output Section
                                 html.Div(id="result-output"),
                             ],
                         ),
@@ -157,72 +158,57 @@ home_layout = html.Div(
                 ),
             ],
         ),
-        html.Script(
-            src="https://maps.googleapis.com/maps/api/js?key={GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap",
-            defer=True,
-        ),
-        # Load custom JavaScript
-        html.Script(src="/assets/maps.js"),
     ],
 )
 
 dashboard_layout = html.Div(
     [
-        html.H1(
-            "SolarOpt",
-            style={
-                "marginBottom": "20px",
-                "backgroundColor": "rgba(255,213,120,1.2)",
-                "padding": "20px",
-                "backgroundColor": "#f8f9fa",
-                "borderRadius": "8px",
-                "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
-            },
-        ),
-        dbc.Container(
-            [
-                # Row 1: Charts
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            dcc.Graph(
-                                id="line_chart1",
-                                figure=create_line_chart1(),
-                                style={"boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)"},
-                            ),
-                            width=6,
+        # Header Section
+        html.Header(
+            className="header",
+            children=[
+                html.Div(
+                    className="header-content",
+                    children=[
+                        html.Img(
+                            src="assets/icons8-solar-64.png",
+                            alt="Logo",
+                            className="logo",
                         ),
-                        dbc.Col(
-                            dcc.Graph(
-                                id="line_chart2",
-                                figure=create_line_chart2(),
-                                style={"boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)"},
-                            ),
-                            width=6,
-                        ),
+                        html.H1("SolarOpt Dashboard", className="title"),
                     ],
-                    className="mb-4",
-                ),
-                # Row 2: Gauge Chart
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            dcc.Graph(
-                                id="gauge_chart",
-                                figure=create_gauge_chart(),
-                                style={
-                                    "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                    "padding": "10px",
-                                },
-                            ),
-                            width=6,
-                            className="offset-md-3",
-                        )
-                    ],
-                    className="mb-4",
                 ),
             ],
-            fluid=True,
+        ),
+        # Main Content Section
+        html.Main(
+            className="main-content",
+            children=[
+                html.Div(
+                    className="content-container",
+                    children=[
+                        # Row 1: Line Charts
+                        html.Div(
+                            className="input-group",
+                            children=[
+                                dcc.Graph(
+                                    id="line_chart1", figure=create_line_chart1()
+                                ),
+                                dcc.Graph(
+                                    id="line_chart2", figure=create_line_chart2()
+                                ),
+                            ],
+                        ),
+                        # Row 2: Gauge Chart
+                        html.Div(
+                            className="input-item",
+                            children=[
+                                dcc.Graph(id="gauge_chart", figure=create_gauge_chart()),
+                            ],
+                        ),
+                    ],
+                ),
+            ],
         ),
     ]
 )
