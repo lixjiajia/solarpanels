@@ -19,7 +19,7 @@ yearly_gas_cost = np.sum(gas_cost)
 yearly_solar_cost = np.sum(solar_cost)
 
 
-def create_line_chart():
+def create_line_chart1():
     fig = px.line(
         x=month,
         y=[solar_cost, gas_cost],
@@ -31,8 +31,8 @@ def create_line_chart():
     return fig
 
 
-def create_bar_chart():
-    fig = px.bar(
+def create_line_chart2():
+    fig = px.line(
         x=month,
         y=[solar_emissions, gas_emissions],
         labels={"x": "Month", "y": "CO2 Emissions (kg)"},

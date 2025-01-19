@@ -1,5 +1,20 @@
 from dash import html, dcc
-from charts import create_line_chart, create_bar_chart, create_gauge_chart
+from charts import create_line_chart1, create_line_chart2, create_gauge_chart
+import dash_bootstrap_components as dbc
+
+app_styles = """
+    .button-hover {
+        transition: all 0.3s ease;
+    }
+    .button-hover:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .input-focus:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+"""
 
 # Home Layout
 home_layout = html.Div(
@@ -16,11 +31,12 @@ home_layout = html.Div(
     },
     children=[
         html.Div(
+            dangerously_allow_html=True,
             style={
                 "backgroundColor": "#fff",
                 "padding": "20px",
-                "borderRadius": "8px",
-                "boxShadow": "0 0 10px rgba(0, 0, 0, 0.1)",
+                "borderRadius": "12px",
+                "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.1)",
                 "maxWidth": "500px",
                 "width": "100%",
             },
@@ -37,26 +53,49 @@ home_layout = html.Div(
                 html.Div(
                     style={"display": "flex", "flexDirection": "column", "gap": "15px"},
                     children=[
-                        html.Label("Roof size:"),
+                        html.Label("Roof size:", style={"fontWeight": "bold"}),
                         dcc.Input(
                             type="text",
                             id="roofSize",
                             required=True,
-                            style={"width": "100%", "padding": "10px"},
+                            style={
+                                "width": "100%",
+                                "padding": "10px",
+                                "borderRadius": "6px",
+                                "border": "1px solid #ccc",
+                                "boxShadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                            },
                         ),
-                        html.Label("Consumption of kW per month:"),
+                        html.Label(
+                            "Consumption of kW per month:", style={"fontWeight": "bold"}
+                        ),
                         dcc.Input(
                             type="text",
                             id="ConsumptionMonth",
                             required=True,
-                            style={"width": "100%", "padding": "10px"},
+                            style={
+                                "width": "100%",
+                                "padding": "10px",
+                                "borderRadius": "6px",
+                                "border": "1px solid #ccc",
+                                "boxShadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                            },
                         ),
-                        html.Label("Cost of energy bills per month:"),
+                        html.Label(
+                            "Cost of energy bills per month:",
+                            style={"fontWeight": "bold"},
+                        ),
                         dcc.Input(
                             type="text",
                             id="EnergyBillMonth",
                             required=True,
-                            style={"width": "100%", "padding": "10px"},
+                            style={
+                                "width": "100%",
+                                "padding": "10px",
+                                "borderRadius": "6px",
+                                "border": "1px solid #ccc",
+                                "boxShadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                            },
                         ),
                         html.Button(
                             "Submit",
@@ -64,14 +103,17 @@ home_layout = html.Div(
                             n_clicks=0,
                             style={
                                 "width": "100%",
-                                "padding": "10px",
+                                "padding": "12px",
                                 "marginTop": "15px",
-                                "borderRadius": "4px",
+                                "borderRadius": "6px",
                                 "backgroundColor": "#007bff",
                                 "color": "white",
                                 "fontSize": "16px",
                                 "cursor": "pointer",
+                                "border": "none",
+                                "transition": "all 0.3s ease",
                             },
+                            className="hover-button",
                         ),
                     ],
                 ),
@@ -80,11 +122,83 @@ home_layout = html.Div(
     ],
 )
 
+
 dashboard_layout = html.Div(
-    children=[
-        html.H1("Dashboard", style={"textAlign": "center", "marginBottom": "20px"}),
-        dcc.Graph(id="line_chart", figure=create_line_chart()),
-        dcc.Graph(id="bar_chart", figure=create_bar_chart()),
-        dcc.Graph(id="gauge_chart", figure=create_gauge_chart()),
+    [
+        html.H1(
+            "SOLAROPT",
+            style={
+                "marginBottom": "20px",
+                "backgroundColor": "rgba(255,213,120,1.2)",
+                "padding": "20px",
+                "borderRadius": "8px",
+                "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
+            },
+        ),
+        html.Div(
+            [
+                html.H2(
+                    "Emissions Savings",
+                    style={"textAlign": "center", "marginBottom": "20px"},
+                ),
+                dbc.Col(
+                    [
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    dcc.Graph(
+                                        id="line_chart",
+                                        figure=create_line_chart1(),
+                                        style={
+                                            "width": "80%",
+                                            "textAlign": "center",
+                                            "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                            "padding": "10px",
+                                        },
+                                    ),
+                                    width=7,
+                                ),
+                                dbc.Col(
+                                    html.Div(
+                                        children=[
+                                            html.H3(
+                                                "1 year CO2 savings",
+                                                style={
+                                                    "fontSize": "24px",
+                                                    "textAlign": "center",
+                                                },
+                                            ),
+                                            html.H2(
+                                                "X lbs",
+                                                style={
+                                                    "fontSize": "32px",
+                                                    "fontWeight": "bold",
+                                                    "textAlign": "center",
+                                                },
+                                            ),
+                                        ],
+                                        style={
+                                            "border": "2px solid #4CAF50",
+                                            "borderRadius": "10px",
+                                            "padding": "20px",
+                                            "textAlign": "center",
+                                            "boxShadow": "4px 8px 12px rgba(0, 0, 0, 0.1)",
+                                            "backgroundColor": "rgba(255,213,120,0.8)",
+                                            "margin": "0 auto",
+                                        },
+                                    ),
+                                    width=5,
+                                ),
+                            ],
+                            justify="center",
+                            align="center",
+                            style={"marginBottom": "20px"},
+                        ),
+                    ]
+                ),
+            ]
+        ),
     ]
 )
+
+# Note: Add `app_styles` in your layout to include the custom hover effects.
