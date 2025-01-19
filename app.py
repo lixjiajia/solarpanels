@@ -1,6 +1,9 @@
 from dash import Dash, dcc, html, Input, Output
 from layouts import home_layout, dashboard_layout
 import dash_leaflet as dl
+import os
+
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 
 app = Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=["https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"])
 server = app.server
@@ -11,7 +14,7 @@ app.layout = html.Div(
         html.Header(
             className="header",
             children=[
-                html.Link(rel="stylesheet", href="assets/styles.css"),
+                html.Link(rel="stylesheet", href="solarpanels/assets/styles.css"),
                 html.Div(
                     className="header-content",
                     children=[
@@ -109,7 +112,7 @@ app.layout = html.Div(
             ]
         ),
     html.Script(
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0bGHSbh5yHc4o1fKAccYnkOsTdZ72Do&libraries=places&callback=initMap",
+        src="https://maps.googleapis.com/maps/api/js?key={GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap",
         defer=True,
     ),
     # Load custom JavaScript
